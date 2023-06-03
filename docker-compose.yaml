@@ -1,0 +1,22 @@
+services:
+  webserver:
+    image: nginx:mainline
+    volumes:
+      - ./webserver/www:/www
+      # TODO: move to templates
+      - ./webserver/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      default:
+        aliases:
+          - webserver
+  proxy:
+    image: nginx:mainline-perl
+    volumes:
+    # TODO: move to templates
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8081:8081"
+    networks:
+      default:
+        aliases:
+          - reverse-proxy
